@@ -1,0 +1,147 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.loginandRegister {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-image: url(https://static1.squarespace.com/static/629fc86d51f5e1642d21c366/t/62c6116c75e51d5206ce36aa/1657147761583/background.png)!important;   
+}
+
+.loginandRegister h2 {
+    color: #fff;
+    margin-top: 30px;
+    margin-bottom: -20px;
+    position: relative;
+    text-align: center;
+}
+
+
+.main-input {
+    padding: 10px;
+    margin-top: 25px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    font-size: 13px;
+}
+
+.main-input::placeholder {
+    color: #fff;
+}
+
+.main-input:focus {
+    outline: none;
+}
+
+.options {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    font-size: 12px;
+    color: white;
+    gap: 20px;
+}
+
+.options input {
+    margin-right: 5px;
+    margin-top: 0px;
+}
+
+.options a {
+    text-decoration: none;
+    color: white;
+    margin-left: auto;
+}
+
+.main-login-button {
+    background: #fff;
+    color: black;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 200px;
+    font-size: 0.8em;
+    font-weight: 700;
+}
+
+.main-login-button:hover {
+    background: transparent;
+    color: #829CBC;
+    outline: 1px solid #fff;
+}
+
+.loginandRegister {
+    perspective: 1000px;
+}
+
+.main-login-form {
+	z-index: 2;
+}
+
+.main-register-form {
+    z-index: 3;
+}
+
+.loginandRegister-alt {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    background-color: none;
+    border-radius: 4px;
+    border: 0;
+    margin: 2px;
+}
+
+.loginandRegister-alt:hover{
+    cursor: pointer;
+    background: transparent;
+    color: #829CBC;
+    border: 0;
+    margin: 2px;
+}
+
+.card-container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    justify-content: center;
+}
+
+.main-login-form, .main-register-form {
+    display: flex;
+    flex-direction: column;
+	height: 420px;
+    background: rgba(103, 103, 103, 0.408);
+    box-shadow: 0 4px 6px rgba(88, 88, 88, 0.1);
+    border-radius: 10px;
+    border: 1px solid #fff;
+    width: 300px;
+
+}
+
+.main-login-form, .main-register-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginandRegister img{
+    position: absolute;
+    width: 110%;
+    height: 100%;
+}
+
+#remember:hover{
+    cursor: pointer;
+}
