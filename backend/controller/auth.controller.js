@@ -32,6 +32,13 @@ export const register = async (req, res) => {
     try {
         const { fname, lname, username, password } = req.body;
 
+        if (fname == "" || lname == "" || username == "" || password == "" ){
+            return res.status(400).json({ error: "missing fields" });
+        } else if (password.length < 6){
+            return res.status(400).json({ error: "password not long enough" });
+        }
+
+
         const existingUser = await User.findOne({ username });
 
         if (existingUser) {
@@ -59,6 +66,7 @@ export const register = async (req, res) => {
             username: newUser.username,
             profilepic: newUser.profilepic
         });
+
 
     } catch (error) {
         console.error("Register error:", error.message);

@@ -1,20 +1,19 @@
 import './App.css';
 import Login from "./components/Loginandregister/Loginandregister"
 import Home from "./components/Home/Home"
+import { Route, Routes } from 'react-router-dom';
+import { useAuthContext } from '../context/context';
 
 function App() {
 
-  const LoggedIn = false
+  const {Authuser} = useAuthContext();
 
   return (
     <div className="App">
-      {LoggedIn ? (
-        <>
-          <Home/>
-        </>
-      ) : (
-        <Home/>
-      )}
+      <Routes>
+        <Route path={'/login'} element={Authuser ? <Navigate to="/" /> : <Login/>}/>
+        <Route path={'/'} element={<Home/>}/>
+      </Routes> 
     </div>
   );
 }

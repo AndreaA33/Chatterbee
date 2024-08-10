@@ -1,58 +1,103 @@
 import './loginandregister.css'
 import { useState } from "react";
-import BG from "../../assets/chatapp-background.jpg"
+import {toast, Toaster} from 'react-hot-toast';
+import { useAuthContext } from '../../../context/context';
 
 function Login() {
 
-    const [Name,setName] = useState("")
+    const {setAuthuser} = useAuthContext()
+
+    const [fname,setFname] = useState("")
+    const [lname,setLname] = useState("")
     const [logUsername,setlogUsername] = useState("")
     const [logPassword,setlogPassword] = useState("")
-    const [Username,setUsername] = useState("")
-    const [Password,setPassword] = useState("")
-    const [logerror, setlogError] = useState("")
-    const [error, setError] = useState("")
-    const [isLoginorReg,setisLoginorReg] = useState(true)
+    const [username,setUsername] = useState("")
+    const [password,setPassword] = useState("")
 
 
-    function handleLogin() {
-        try{
-            if (logUsername == "" || logPassword == ""){
-                throw new Error('Username or password cannot be empty');
-            } else if (logUsername != localStorage.getItem("Username") || logPassword != localStorage.getItem("Password")){
-                throw new Error('Invalid username or password');
-            } else {
-                window.location.href = '/home';
-            }
-        } catch (logerror) {
-            setlogError(logerror.message)
+    const handleLogin = async(e) => {
+        e.preventDefault()
+        if (logUsername == "" || logPassword == ""){
+            toast.error('None of the fields can be empty')
+        } 
+
+
+        try {
+
+            const res = await fetch('/api/auth/login', {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({username,password})
+            })
+
+            toast('Welcome back!', {
+                icon: '👏',
+              });
+            
+        } catch (error) {
+            
         }
     }
+    
 
-    function handleRegister() {
-        try{
-            if (Username == "" || Password == "" || Name == ""){
-                throw new Error('Name, Username or password cannot be empty');
-            } else if (Username == localStorage.getItem("Username")){
-                throw new Error('User already exists');
-            } else {
-                localStorage.setItem("Name",Name)
-                localStorage.setItem("Username",Username)
-                localStorage.setItem("Password",Password)
-                window.location.href = '/home';
-            }
-        } catch (error) {
-            setError(error.message)
+    const handleRegister = async(e) => {
+        e.preventDefault()
+
+        if (fname == "" || lname == "" || username == "" || password == "" ){
+            return toast.error('None of the fields can be empty')
+        } else if (password.length < 6){
+            return toast.error("Password must be at least 6 characters long")
         }
 
+        try {
+            const res = await fetch('/api/auth/register', {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({fname,lname,username,password})
+            })
+
+            
+            toast.success("Registration complete")
+
+            const data = await res.json();
+            setAuthuser(data)
+            localStorage.setItem("chatuser",JSON.stringify(data)) 
+            
+        
+        } catch (error) {
+            toast.error("Registration failed")
+            console.log(error.message)
+        }
+
+        
+    }
+
+    const handleLogout = async() => {
+        try {
+            const res = await fetch('/api/auth/logout', {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({fname,lname,username,password})
+            })
+
+            setAuthuser(null);
+            localStorage.removeItem('chatuser');
+            
+        } catch (error) {
+            
+        }       
     }
 
 
     return (
         <div className="loginandRegister">
             <div className='card-container'>
-                    <div className="main-login-form">
+                    <Toaster
+                       position="top-center"
+                        reverseOrder={false}
+                    />
+                    <form className="main-login-form" onSubmit={handleLogin}>
                         <h2>Login</h2>
-                        {logerror && <div className="main-error"><p>{logerror}</p></div>}
                         <input className={"main-input"} placeholder={"Username"} value={logUsername} onChange={(e) => setlogUsername(e.target.value)}/>
                         <input className={"main-input"} placeholder={"Password"} type="password" value={logPassword} onChange={(e) => setlogPassword(e.target.value)}/>
                         <div className="options">
@@ -60,22 +105,22 @@ function Login() {
                             <label>Remember me</label>
                             <a href="#">Forgot Password?</a>
                         </div>
-                        <button onClick={handleLogin} className='main-login-button'>Login</button>
+                        <input type='submit' className='main-login-button' value={"Login"}/>
                         {/* <p>Don't have an account? <button onClick={handleflip} className='main-LogandReg-container-alt'>Register</button></p> */}
-                    </div>
-                    <div className="main-register-form">
+                    </form>
+                    <form className="main-register-form" onSubmit={handleRegister}>
                         <h2>Register</h2>
-                        {error && <div className="main-error"><p>{error}</p></div>}
-                        <input className={"main-input"} placeholder={"Name"} value={Name} onChange={(e) => {setName(e.target.value)}}/>
-                        <input className={"main-input"} placeholder={"Username"} value={Username} onChange={(e) => {setUsername(e.target.value)}}/>
-                        <input className={"main-input"} placeholder={"Password"} type="password" value={Password} onChange={(e) => {setPassword(e.target.value)}}/>
+                        <input className={"main-input"} placeholder={"First name"} value={fname} onChange={(e) => {setFname(e.target.value)}}/>
+                        <input className={"main-input"} placeholder={"Second name"} value={lname} onChange={(e) => {setLname(e.target.value)}}/>
+                        <input className={"main-input"} placeholder={"Username"} value={username} onChange={(e) => {setUsername(e.target.value)}}/>
+                        <input className={"main-input"} placeholder={"Password"} type="password" value={password} onChange={(e) => {setPassword(e.target.value)}}/>
                         <div className="options">
                             <input type="checkbox" id="remember" name="remember"/>
                             <label>Remember me</label>
                         </div>
-                        <button className={"main-login-button"} onClick={handleRegister}>Register</button>
+                        <input type='submit'className={"main-login-button"} onClick={handleRegister} value={"Register"}/>
                         {/* <p>Already have an account? <button onClick={handleflip} className='main-LogandReg-container-alt'>Login</button></p> */}
-                    </div>
+                    </form>
                 </div>
         </div>
     );
