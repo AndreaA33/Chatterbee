@@ -1,16 +1,49 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "./chatlist.css"
-import pfp from "../../assets/johnpowell_headshot_0.jpg"
-import img1 from "../../assets/linkedin-pfp.jpg"
-import img2 from "../../assets/1-intro-photo-final.jpg"
-import img3 from "../../assets/downloadpfpimage.jpg"
+import { useAuthContext, userChatContext } from '../../context/context';
+import { toast } from 'react-hot-toast';
+import { useconversations } from '../../hooks/conversations'
 
 function Chatlist() {
-  return (
+
+    const {setAuthuser} = useAuthContext()
+    const { Chat,setChat } = userChatContext();
+
+    const handleLogout = async() => {
+        try {
+            const res = await fetch('/api/auth/logout', {
+                method: "POST",
+            })
+
+            if (!res.ok) {
+                throw new Error("Failed to log out");
+            }
+
+            toast('Good bye!', {
+                icon: '👏',
+              });   
+
+            
+            setTimeout(() => {
+                setAuthuser(null);
+                localStorage.removeItem('chatuser');
+            }, 2000);
+
+            
+        } catch (error) {
+            toast.error("Logout failed")
+            console.log(error.message)
+        }       
+    }
+    
+    
+    const {conversations} = useconversations()
+
+    return (
     <div className='chatlist'>
       <div className='chatlist-user'>
-        <img src={pfp}/>
-        <p>John Clarks</p>
+        <img src={JSON.parse(localStorage.getItem("chatuser")).profilepic}/>
+        <p>{JSON.parse(localStorage.getItem("chatuser")).fname} {JSON.parse(localStorage.getItem("chatuser")).lname}</p>
         <p>***</p>
       </div>
       <div className='chatlist-search'>
@@ -18,69 +51,23 @@ function Chatlist() {
         <button>+</button>
       </div>
       <div className='chatlist-list'>
-        <div className='chatlist-listitem'>
-            <img src={img1}/>
-            <div className='chatlist-listinf'>
+        {conversations.map((value, index) => (
+          <div key={index} className='chatlist-listitem' onClick={setChat(value._id)}>
+            <img src={value.profilepic}/>
+              <div className='chatlist-listinf'>
                 <div className='listinf-line1'>
-                    <p>Andrea Anikwe</p>
-                    <p>8:47am</p>
+                  <p>{value.fname} {value.lname}</p>
+                  <p>9:47pm</p>
                 </div>
                 <div className='message'>
-                    <p>If you have another memory stick or external hard drive with more If you have another memory stick or external hard drive with more If you have another memory stick or external hard drive with more</p>
+                  <p>message</p> 
                 </div>
-            </div>
-        </div>
-        <div className='chatlist-listitem'>
-            <img src={img2}/>
-            <div className='chatlist-listinf'>
-                <div className='listinf-line1'>
-                    <p>Matthew Paul</p>
-                    <p>4:13am</p>
-                </div>
-                <div className='message'>
-                   <p>message</p> 
-                </div>
-                
-            </div>
-        </div>
-        <div className='chatlist-listitem'>
-            <img src={img3}/>
-            <div className='chatlist-listinf'>
-                <div className='listinf-line1'>
-                    <p>James Ryley</p>
-                    <p>9:47pm</p>
-                </div>
-                <div className='message'>
-                   <p>message</p> 
-                </div>
-            </div>
-        </div>
-        <div className='chatlist-listitem'>
-            <img src={img1}/>
-            <div className='chatlist-listinf'>
-                <div className='listinf-line1'>
-                    <p>Fin West</p>
-                    <p>5:24pm</p>
-                </div>
-                <div className='message'>
-                   <p>message</p> 
-                </div>
-            </div>
-        </div>
-        <div className='chatlist-listitem'>
-            <img src={img2}/>
-            <div className='chatlist-listinf'>
-                <div className='listinf-line1'>
-                    <p>Quavious Gray</p>
-                    <p>10:55pm</p>
-                </div>
-                <div className='message'>
-                   <p>message</p> 
-                </div>
-            </div>
-        </div>
+              </div>
+          </div>
+        ))}
+
       </div>
-      <button className='logout-button'>LOGOUT</button>
+      <button className='logout-button' onClick={handleLogout}>LOGOUT</button>
     </div>
   )
 }

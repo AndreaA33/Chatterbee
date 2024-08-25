@@ -1,7 +1,7 @@
 import './loginandregister.css'
 import { useState } from "react";
 import {toast, Toaster} from 'react-hot-toast';
-import { useAuthContext } from '../../../context/context';
+import { useAuthContext } from '../../context/context';
 
 function Login() {
 
@@ -15,87 +15,79 @@ function Login() {
     const [password,setPassword] = useState("")
 
 
-    const handleLogin = async(e) => {
-        e.preventDefault()
-        if (logUsername == "" || logPassword == ""){
-            toast.error('None of the fields can be empty')
-        } 
-
-
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        if (logUsername === "" || logPassword === "") {
+            return toast.error('None of the fields can be empty');
+        }
+    
         try {
-
             const res = await fetch('/api/auth/login', {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({username,password})
-            })
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username: logUsername, password: logPassword }) 
+            });
+    
+            if (!res.ok) {
+                throw new Error("Failed to log in");
+            }
 
-            toast('Welcome back!', {
-                icon: '👏',
-              });
+            toast.success('Login successful');
+    
+            const data = await res.json();
+
+            setTimeout(() => {
+                setAuthuser(data);
+                localStorage.setItem("chatuser", JSON.stringify(data));
+            }, 1000);
             
+
+    
+    
         } catch (error) {
-            
+            toast.error("Login failed");
+            console.log(error.message);
         }
     }
     
-
-    const handleRegister = async(e) => {
-        e.preventDefault()
-
-        if (fname == "" || lname == "" || username == "" || password == "" ){
-            return toast.error('None of the fields can be empty')
-        } else if (password.length < 6){
-            return toast.error("Password must be at least 6 characters long")
+    const handleRegister = async (e) => {
+        e.preventDefault();
+    
+        if (fname === "" || lname === "" || username === "" || password === "") {
+            return toast.error('None of the fields can be empty');
+        } else if (password.length < 6) {
+            return toast.error("Password must be at least 6 characters long");
         }
-
+    
         try {
             const res = await fetch('/api/auth/register', {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({fname,lname,username,password})
-            })
-
-            
-            toast.success("Registration complete")
-
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ fname, lname, username, password })
+            });
+    
+            if (!res.ok) {
+                throw new Error("Failed to register");
+            }
+    
             const data = await res.json();
-            setAuthuser(data)
-            localStorage.setItem("chatuser",JSON.stringify(data)) 
-            
-        
+            setAuthuser(data);
+            localStorage.setItem("chatuser", JSON.stringify(data));
+            toast.success("Registration complete");
+    
+            window.location.href = '/';
+    
         } catch (error) {
-            toast.error("Registration failed")
-            console.log(error.message)
+            toast.error("Registration failed");
+            console.log(error.message);
         }
-
-        
     }
-
-    const handleLogout = async() => {
-        try {
-            const res = await fetch('/api/auth/logout', {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({fname,lname,username,password})
-            })
-
-            setAuthuser(null);
-            localStorage.removeItem('chatuser');
-            
-        } catch (error) {
-            
-        }       
-    }
+    
 
 
     return (
         <div className="loginandRegister">
             <div className='card-container'>
-                    <Toaster
-                       position="top-center"
-                        reverseOrder={false}
-                    />
                     <form className="main-login-form" onSubmit={handleLogin}>
                         <h2>Login</h2>
                         <input className={"main-input"} placeholder={"Username"} value={logUsername} onChange={(e) => setlogUsername(e.target.value)}/>

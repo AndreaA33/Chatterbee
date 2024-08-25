@@ -1,22 +1,23 @@
 import {React, useState} from 'react'
 import "./chat.css"
 import img1 from "../../assets/linkedin-pfp.jpg"
-import pfp from "../../assets/johnpowell_headshot_0.jpg"
 import { MdOutlineEmojiEmotions } from "react-icons/md";
 import { IoIosLink } from "react-icons/io";
 import { IoMdSend } from "react-icons/io";
 import EmojiPicker from 'emoji-picker-react';
+import usemessages from '../../hooks/messages';
 
 function Chat() {
     const [emoji,setemojiopen] = useState(false)
-    const [text, setText] = useState("")
+    const [text, setText] = useState("")  
+    const [Image, setImage] = useState("");
     
     const handleemoji = (e) =>{
         setText(prev=>prev+e.emoji)
         setemojiopen(false)
     }
 
-    const [Image, setImage] = useState("");
+  
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -31,6 +32,8 @@ function Chat() {
         reader.readAsDataURL(file); 
     };
 
+    const {messages} = usemessages()
+    const messageArray = Array.isArray(messages?.messages) ? messages.messages : [];
 
   return (
     <div className='chat'>
@@ -42,41 +45,15 @@ function Chat() {
         </div>
       </div>
       <div className='chat-main'>
-        <div className='chat-message'>
-            <img src={img1}/>
-            <div className='chat-text'>
-                <p>Temporarily move some files from the memory stick to another storage device or your computer to free up space</p>
-                <span>8:30am</span>
+        {messageArray.map((value, index) => (
+            <div key={index} className='chat-message'>
+                <img src={img1}/>
+                <div className='chat-text'>
+                    <p>{value.messagecontent}</p>
+                    <span>{value.createdAt}</span>
+                </div>
             </div>
-        </div>
-        <div className='chat-message own'>
-            <div className='chat-text'>
-                <p>If you need to copy a large file, consider compressing</p>
-                <span>9:20am</span>
-            </div>
-            <img src={pfp}/>
-        </div>
-        <div className='chat-message'>
-            <img src={img1}/>
-            <div className='chat-text'>
-                <p>If you have another memory stick or external hard drive with more </p>
-                <span>9:30am</span>
-            </div>
-        </div>
-        <div className='chat-message own'>
-            <div className='chat-text'>
-                <p>The error message "there is insufficient disk space to complete the operation" indicates that there is not enough free</p>
-                <span>2:17pm</span>
-            </div>
-            <img src={pfp}/>
-        </div>
-        <div className='chat-message'>
-            <img src={img1}/>
-            <div className='chat-text'>
-                <p>If you have another memory stick or external hard drive with more If you have another memory stick or external hard drive with more If you have another memory stick or external hard drive with more </p>
-                <span>3:40am</span>
-            </div>
-        </div>
+        ))}
       </div>
       <div className='chat-textfield'>
         <div className='chat-emojicontainer'>

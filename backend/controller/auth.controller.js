@@ -6,12 +6,20 @@ export const login = async (req, res) => {
     try {
         const { username, password } = req.body;
 
+
         const user = await User.findOne({ username });
+
+        if (!user) {
+            return res.status(400).json({ error: "User does not exist" });
+        }
+
         const isPasswordCorrect =  await bcryptjs.compare(password, user?.password || "")
+
 
         if (!user || !isPasswordCorrect) {
             return res.status(400).json({ error: "Invalid credentials" });
         }
+
 
         generateToken(user._id, res);
         res.status(201).json({
@@ -23,7 +31,7 @@ export const login = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Login error:", err.message);
+        console.error("Login error:", error.message);
         res.status(500).json({ error: "Server error" });
     }
 };

@@ -11,20 +11,25 @@ export const getusersinconv = async(req,res) => {
         const filterparticipants = await Conversation.find({
             participants: userId
         })
+        
 
         let participantIds = filterparticipants.flatMap(filterparticipants => filterparticipants.participants);
 
     
         participantIds = [...new Set(participantIds)].filter(id => id.toString() !== userId.toString());
 
-        console.log(participantIds)
 
-        for (const i of participantIds){
-            const finduser = await User.find(i)
-            partids = [...new Set(i)].filter(id => id.toString() !== userId.toString());
-            console.log(partids)
+        const usersInConversations = [];
+
+        for (const i of participantIds) {
+            const finduser = await User.findById(i); 
+            if (finduser) {
+                usersInConversations.push(finduser);
+            }
         }
-        res.status(200).json({})
+
+
+        res.status(200).json(usersInConversations);
 
     } catch (error) {
         console.error("Error retrieving users in conversation with:", error.message);
