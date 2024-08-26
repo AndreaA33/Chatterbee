@@ -1,0 +1,33 @@
+.search{
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    z-index: 10;
+    border-radius: 10px;
+    height: 40vh;
+    width: 40vw;
+    background-color: #131313;
+    border: solid 1px white;
+}
+
+.search-listitem{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    height: 9vh;
+    width: 100%;
+    border-radius: 10px;
+    padding-bottom: 20px;
+}
+
+.search-listinf{
+    color: white;
+    font-size: 15px;
+    width: 70%;
+}
+
+.searchlistinf-line1{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 20px;
+}

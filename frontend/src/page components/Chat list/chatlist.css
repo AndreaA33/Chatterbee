@@ -152,3 +152,11 @@
     cursor: pointer;
     background-color: #6562ff7d;
 }
+
+.search-open{
+    visibility: visible;
+}
+
+.search-close{
+    visibility: hidden;
+}

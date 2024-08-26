@@ -4,6 +4,7 @@
     flex-direction: column;
     background-color: rgba(53, 50, 50, 0.445);
     height: 100%;
+    
 }
 
 .chat-banner{
@@ -41,6 +42,8 @@
     overflow: scroll;
     color: white;
     gap: 10px;
+    max-width: 100%;
+    
 }
 
 .chat-main::-webkit-scrollbar {
@@ -98,7 +101,7 @@
     right: 5%;
 }
 
-.chat-message img{
+.chat-message-img{
     display: flex;
     flex-direction: column;
     height: 50px;
@@ -116,9 +119,23 @@
     max-width: 60%;
     align-items: flex-start;
     &.own{
-        align-self: flex-end ;
+        align-self: flex-end;
+        flex-direction: row-reverse;
+        
     }
 }
+
+.chat-message-imgown{
+    display: flex;
+    flex-direction: column;
+    height: 50px;
+    width: 50px;
+    border-radius: 100px;
+    gap: 20px;
+    object-fit: cover;
+} 
+
+.chat-message 
 
 .chat-text{
     display: flex;
@@ -128,10 +145,12 @@
 .chat-text p{
     background-color: #3f3f3f99;
     padding: 2px 10px;
-    width: fit-content;
+    max-width: fit-content;
+    word-break: break-word;
     border-radius: 5px;
     padding: 5px;
     text-align: start;
+    box-sizing: border-box;
 }
 
 .chat-text span{

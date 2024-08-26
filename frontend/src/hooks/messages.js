@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { userChatContext } from '../context/context';
 
 export const usemessages = () => {
@@ -6,11 +6,8 @@ export const usemessages = () => {
     const [messages,setMessages] = useState([])
     const { Chat } = userChatContext();
 
-    useEffect(() => {
-        const handlemessages = async () => {
-
+        const handlemessages = useCallback(async () => {
             try {
-                console.log(Chat)
                 
                 const res = await fetch(`/api/messages/${Chat}`, {
                     method: "GET",
@@ -23,18 +20,18 @@ export const usemessages = () => {
                 const data = await res.json();
                 setMessages(data)
 
-                
             } catch (error) {
                 console.error("Chatlist error:", error.message);
                 console.log(error.message)
             }      
-        }
+        },[Chat])
 
-        if (Chat) handlemessages()
+        useEffect(() => {
+            handlemessages(); 
+        }, [handlemessages]);
 
-    },[Chat])
 
-    return {messages}
+    return {messages, handlemessages}
 }
 
 export default usemessages

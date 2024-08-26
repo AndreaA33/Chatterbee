@@ -1,13 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import "./chatlist.css"
 import { useAuthContext, userChatContext } from '../../context/context';
 import { toast } from 'react-hot-toast';
 import { useconversations } from '../../hooks/conversations'
+import Search from '../Search/Search';
 
 function Chatlist() {
 
-    const {setAuthuser} = useAuthContext()
-    const { Chat,setChat } = userChatContext();
+    const {Authuser,setAuthuser} = useAuthContext()
+    const { setChat } = userChatContext();
+    const [text, setText] = useState("")
+    const [open, setOpen] = useState(false)
+   
 
     const handleLogout = async() => {
         try {
@@ -36,23 +40,22 @@ function Chatlist() {
         }       
     }
     
-    
     const {conversations} = useconversations()
 
     return (
     <div className='chatlist'>
       <div className='chatlist-user'>
         <img src={JSON.parse(localStorage.getItem("chatuser")).profilepic}/>
-        <p>{JSON.parse(localStorage.getItem("chatuser")).fname} {JSON.parse(localStorage.getItem("chatuser")).lname}</p>
+        <p>{Authuser.fname} {Authuser.lname}</p>
         <p>***</p>
       </div>
       <div className='chatlist-search'>
-        <input placeholder='Search'/>
+        <input placeholder='Search' onChange={e=>setText(e.target.value)} value={text} />
         <button>+</button>
       </div>
       <div className='chatlist-list'>
         {conversations.map((value, index) => (
-          <div key={index} className='chatlist-listitem' onClick={setChat(value._id)}>
+          <div key={index} className='chatlist-listitem' onClick={() => setChat(value._id)}>
             <img src={value.profilepic}/>
               <div className='chatlist-listinf'>
                 <div className='listinf-line1'>
@@ -68,6 +71,10 @@ function Chatlist() {
 
       </div>
       <button className='logout-button' onClick={handleLogout}>LOGOUT</button>
+
+      <Search/>
+
+      {/* className={open ? "search-open" : "search-close"}  */}
     </div>
   )
 }
