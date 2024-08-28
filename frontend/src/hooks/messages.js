@@ -9,7 +9,7 @@ export const usemessages = () => {
         const handlemessages = useCallback(async () => {
             try {
                 
-                const res = await fetch(`/api/messages/${Chat}`, {
+                const res = await fetch(`/api/messages/${Chat._id}`, {
                     method: "GET",
                 })
     

@@ -18,12 +18,12 @@
 
 .chat-inf{
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     color: white;
-    font-size: 14px;
+    font-size: 20px;
     margin-left: 20px;
-    column-gap: -5px;
 }
 
 .chat-banner img{
@@ -78,6 +78,16 @@
     height: 40px;
     padding: 0 5px;
     font-weight: 600;
+}
+
+.chat-sendbutton input {
+    border: none;
+    background-color: transparent;
+    height: 100%;
+}
+
+.chat-sendbutton input:hover {
+    cursor: pointer;
 }
 
 .chat-sendbutton:hover{

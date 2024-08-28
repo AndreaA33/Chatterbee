@@ -12,7 +12,7 @@
     flex-direction: row;
     align-items: center;
     color: white;
-    justify-content: space-around;
+    column-gap: 30px;
     margin-top: 20px;
     background-color: #6562FF;
     border-radius: 10px;
@@ -77,7 +77,7 @@
 .chatlist-list::-webkit-scrollbar {
     width: 0;  
     background: transparent;  
-  }
+}
 
 .chatlist-listitem{
     display: flex;

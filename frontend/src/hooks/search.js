@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import React, { useState, useCallback, useEffect} from 'react';
+import { useSearchContext } from '../context/context';
 
 export const usesearch = () => {
+
     const [search, setSearch] = useState([]);
 
-    const handleSearch = async (searchtext) => {
+    const { Searchtxt } = useSearchContext()
+
+    const handleSearch = useCallback(async () => {
         try {
             const res = await fetch('/api/users/getuser', {
                 method: "POST",  
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username: searchtext }) 
+                body: JSON.stringify({ username: Searchtxt }) 
             });
 
             if (!res.ok) {
@@ -17,14 +20,17 @@ export const usesearch = () => {
             }
 
             const data = await res.json(); 
-            toast.success(data)
             setSearch(data);
 
         } catch (error) {
             console.error("Search error:", error.message);
             console.log(error.message)
         }
-    };
+    },[Searchtxt])
 
-    return { search, handleSearch };
+    useEffect(() => {
+        handleSearch(); 
+    }, [handleSearch]);
+
+    return { search  };
 };

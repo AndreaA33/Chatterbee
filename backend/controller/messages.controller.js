@@ -45,9 +45,16 @@ export const getmessage = async(req,res) => {
         const { id: convpartnerId } = req.params
         const senderId = req.user._id 
         
+        
         const conversation = await Conversation.findOne({
             participants: {$all: [senderId,convpartnerId]}
         }).populate("messages")
+
+        if (!conversation){
+            conversation = await Conversation.create({
+                participants: [senderId,convpartnerId]
+            })
+        }
     
         const messages  = conversation.messages
 

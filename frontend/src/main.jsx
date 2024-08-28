@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import { AuthContextProvider, ChatContextProvider } from './context/context.jsx'
+import { AuthContextProvider, ChatContextProvider, SearchContextProvider } from './context/context.jsx'
 import { BrowserRouter } from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -10,7 +10,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <AuthContextProvider>
         <ChatContextProvider>
-        <App />
+          <SearchContextProvider>
+            <App />
+          </SearchContextProvider>
         </ChatContextProvider>
       </AuthContextProvider>
     </BrowserRouter>

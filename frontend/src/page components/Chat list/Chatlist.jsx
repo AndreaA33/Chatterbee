@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
 import "./chatlist.css"
-import { useAuthContext, userChatContext } from '../../context/context';
+import { useAuthContext, userChatContext, useSearchContext } from '../../context/context';
 import { toast } from 'react-hot-toast';
 import { useconversations } from '../../hooks/conversations'
-import Search from '../Search/Search';
+import {usesearch} from '../../hooks/search'
 
 function Chatlist() {
 
     const {Authuser,setAuthuser} = useAuthContext()
     const { setChat } = userChatContext();
-    const [text, setText] = useState("")
-    const [open, setOpen] = useState(false)
+    const { Searchtxt, setSearchtxt } = useSearchContext()
    
 
     const handleLogout = async() => {
@@ -40,22 +39,28 @@ function Chatlist() {
         }       
     }
     
-    const {conversations} = useconversations()
+    const {conversations,handleconversations} = useconversations()
+
+    const {search} = usesearch()
+
+    const setList = (value) => {
+      setSearchtxt("")
+      setChat(value)
+      handleconversations()
+    }
 
     return (
     <div className='chatlist'>
       <div className='chatlist-user'>
         <img src={JSON.parse(localStorage.getItem("chatuser")).profilepic}/>
         <p>{Authuser.fname} {Authuser.lname}</p>
-        <p>***</p>
       </div>
       <div className='chatlist-search'>
-        <input placeholder='Search' onChange={e=>setText(e.target.value)} value={text} />
-        <button>+</button>
+        <input placeholder='Search' onChange={e=>setSearchtxt(e.target.value)} value={Searchtxt} />
       </div>
       <div className='chatlist-list'>
-        {conversations.map((value, index) => (
-          <div key={index} className='chatlist-listitem' onClick={() => setChat(value._id)}>
+        {(Searchtxt ? search : conversations).map((value, index) => (
+          <div key={index} className='chatlist-listitem' onClick={() => setList(value)}>
             <img src={value.profilepic}/>
               <div className='chatlist-listinf'>
                 <div className='listinf-line1'>
@@ -72,9 +77,6 @@ function Chatlist() {
       </div>
       <button className='logout-button' onClick={handleLogout}>LOGOUT</button>
 
-      <Search/>
-
-      {/* className={open ? "search-open" : "search-close"}  */}
     </div>
   )
 }

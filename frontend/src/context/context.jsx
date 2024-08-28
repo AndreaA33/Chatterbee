@@ -22,7 +22,20 @@ export const userChatContext = () => {
 
 export const ChatContextProvider = ({children}) => {
     
-    const [Chat, setChat] = useState(null)
+    const [Chat, setChat] = useState("")
 
     return <ChatContext.Provider value={{Chat,setChat}}>{children}</ChatContext.Provider>
+}
+
+export const SearchContext = createContext();
+
+export const useSearchContext = () => {
+    return useContext(SearchContext)
+}
+
+export const SearchContextProvider = ({children}) => {
+    
+    const [Searchtxt, setSearchtxt] = useState("")
+
+    return <SearchContext.Provider value={{Searchtxt,setSearchtxt}}>{children}</SearchContext.Provider>
 }

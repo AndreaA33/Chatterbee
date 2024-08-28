@@ -54,7 +54,7 @@ export const register = async (req, res) => {
         }
 
         const hashedPassword = await bcryptjs.hash(password, 10);
-        const profilepic = `https://avatar.iran.liara.run/username?username=[${fname}+${lname}]`;
+        const profilepic = `https://avatar.iran.liara.run/username?username=${fname}+${lname}`;
 
         const newUser = new User({
             fname,

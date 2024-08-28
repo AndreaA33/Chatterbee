@@ -47,7 +47,8 @@ function Chat() {
     const messageArray = Array.isArray(messages?.messages) ? messages.messages : [];
 
 
-    const handleSendMessage = async () => {
+    const handleSendMessage = async (e) => {
+        e.preventDefault();
         if (text.trim()) {
             await handleSend(text)
             setText("")
@@ -55,27 +56,33 @@ function Chat() {
         }
     };
 
+    const convertedTime = (time) => {
+        const date = new Date(time)
+        const hours = date.getHours().toString().padStart(2, "0")
+        const min = date.getMinutes().toString().padStart(2, "0")
+        return `${hours}:${min}`
+    }
+
   return (
     <div className='chat'>
       <div className='chat-banner'>
-        <img src={img1}/>
+        <img src={Chat.profilepic}/>
         <div className='chat-inf'>
-            <p>Andrea Anikwe</p>
-            <p>Online</p>
+            <p>{Chat.fname} {Chat.lname}</p>
         </div>
       </div>
       <div className='chat-main'>
         {messageArray.map((value, index) => (
             <div key={index} className={value.senderId == Authuser._id? 'chat-message own': 'chat-message'}>
-                <img className={"chat-message-img"} src={value.senderId == Authuser._id? Authuser.profilepic : img1}/>
+                <img className={"chat-message-img"} src={value.senderId == Authuser._id? Authuser.profilepic : Chat.profilepic}/>
                 <div className='chat-text'>
                     <p>{value.messagecontent}</p>
-                    <span>{value.createdAt}</span>
+                    <span>{convertedTime(value.createdAt)}</span>
                 </div>
             </div>
         ))}
         </div>
-        <div className='chat-textfield'>
+        <form className='chat-textfield' onSubmit={handleSendMessage}>
             <div className='chat-emojicontainer'>
                 <EmojiPicker open={emoji} onEmojiClick={handleemoji}/>
             </div>
@@ -83,8 +90,12 @@ function Chat() {
             <input type="file" id="upload" accept="image/file/*" style={{ display: 'none' }} onChange={handleImageChange}/>
             <input className="chat-textbox" placeholder='Type a message' onChange={e=>setText(e.target.value)} value={text}/>
             <MdOutlineEmojiEmotions className='chat-emoji' style={{color:"#FFFFFF", fontSize: 25}} onClick={()=>{setemojiopen(prev=>!prev)}}/>
-            <button className='chat-sendbutton' onClick={handleSendMessage}>Send<IoMdSend style={{fontSize: 25}}/></button>
-        </div>
+            <div className='chat-sendbutton'>
+                <input type={"submit"} value={"send"}/>
+                <IoMdSend style={{fontSize: 25}}/>
+            </div>
+            
+        </form>
     </div>
   )
 }

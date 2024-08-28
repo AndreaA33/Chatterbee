@@ -1,4 +1,3 @@
-import {React, useEffect} from 'react'
 import { userChatContext } from '../context/context';
 
 
@@ -8,7 +7,7 @@ const usesendmessage = () => {
 
     const handleSend = async (text) => {
         try {
-            const res = await fetch(`/api/messages/send/${Chat}`, {
+            const res = await fetch(`/api/messages/send/${Chat._id}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({message:text}) 

@@ -98,7 +98,6 @@ function Login() {
                             <a href="#">Forgot Password?</a>
                         </div>
                         <input type='submit' className='main-login-button' value={"Login"}/>
-                        {/* <p>Don't have an account? <button onClick={handleflip} className='main-LogandReg-container-alt'>Register</button></p> */}
                     </form>
                     <form className="main-register-form" onSubmit={handleRegister}>
                         <h2>Register</h2>
@@ -111,7 +110,6 @@ function Login() {
                             <label>Remember me</label>
                         </div>
                         <input type='submit'className={"main-login-button"} onClick={handleRegister} value={"Register"}/>
-                        {/* <p>Already have an account? <button onClick={handleflip} className='main-LogandReg-container-alt'>Login</button></p> */}
                     </form>
                 </div>
         </div>

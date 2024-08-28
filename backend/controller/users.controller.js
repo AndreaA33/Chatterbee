@@ -42,9 +42,9 @@ export const getuser = async(req,res) =>{
 
         const { username } = req.body
 
-        const userinfo = await User.findOne({username}).select("-password");
+        const finduserinfo = await User.find({username : { $regex: username, $options: 'i' }}).select("-password");
 
-        res.status(200).json(userinfo)
+        res.status(200).json(finduserinfo)  
         
     } catch (error) {
         console.error("Error retrieving user:", error.message);
