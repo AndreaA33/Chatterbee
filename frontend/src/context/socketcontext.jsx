@@ -15,7 +15,7 @@ export const SocketContextProvider = ({ children }) => {
 
     useEffect(() => {
         if (Authuser) {
-            const newSocket = io("http://localhost:3000", {
+            const newSocket = io("https://chatterbee.netlify.app/", {
                 query: { userId: Authuser._id },
                 withCredentials: true,
             });
