@@ -36,9 +36,13 @@ function Login() {
     
             const data = await res.json();
 
-            setAuthuser(data);
-            localStorage.setItem("chatuser", JSON.stringify(data));
+            setTimeout(() => {
+                setAuthuser(data);
+                localStorage.setItem("chatuser", JSON.stringify(data));
+            }, 1000);
             
+
+    
     
         } catch (error) {
             toast.error("Login failed");

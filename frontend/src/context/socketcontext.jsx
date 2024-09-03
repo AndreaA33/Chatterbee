@@ -15,7 +15,7 @@ export const SocketContextProvider = ({ children }) => {
 
     useEffect(() => {
         if (Authuser) {
-            const newSocket = io("https://chatterbee.netlify.app/", {
+            const newSocket = io("https://chatterbee.onrender.com/", {
                 query: { userId: Authuser._id },
                 withCredentials: true,
             });
