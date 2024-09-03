@@ -40,11 +40,21 @@ export const getusersinconv = async(req,res) => {
 export const getuser = async(req,res) =>{
     try {
 
+        const userId = req.user._id 
+
         const { username } = req.body
 
         const finduserinfo = await User.find({username : { $regex: username, $options: 'i' }}).select("-password");
 
-        res.status(200).json(finduserinfo)  
+        const usersInSearch = [];
+        
+        for (const i of finduserinfo){
+            if (i._id.toString() !== userId.toString()) {
+                usersInSearch.push(i)
+            }
+        }
+
+        res.status(200).json(usersInSearch)  
         
     } catch (error) {
         console.error("Error retrieving user:", error.message);

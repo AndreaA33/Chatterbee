@@ -89,6 +89,29 @@
     padding-bottom: 20px;
 }
 
+.chatlist-click{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    height: 9vh;
+    width: 100%;
+    border-radius: 10px;
+    padding-bottom: 20px;
+    background-color: #7272726d; 
+}
+
+.chatlist-click img{
+    position: relative;
+    height: 70px;
+    width: 70px;
+    border-radius: 100px;
+    margin-right: 20px;
+    margin-top: 10px;
+    left: -5%;
+    margin-left: 40px;
+    object-fit: cover;
+}
+
 .chatlist-listitem:hover{
     background-color: rgba(120, 120, 120, 0.521);
     cursor: pointer;

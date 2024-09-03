@@ -1,5 +1,4 @@
-import { time } from "console";
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema({
     messagecontent: {

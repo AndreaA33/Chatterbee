@@ -8,7 +8,7 @@ import {usesearch} from '../../hooks/search'
 function Chatlist() {
 
     const {Authuser,setAuthuser} = useAuthContext()
-    const { setChat } = userChatContext();
+    const { Chat,setChat } = userChatContext();
     const { Searchtxt, setSearchtxt } = useSearchContext()
    
 
@@ -60,7 +60,7 @@ function Chatlist() {
       </div>
       <div className='chatlist-list'>
         {(Searchtxt ? search : conversations).map((value, index) => (
-          <div key={index} className='chatlist-listitem' onClick={() => setList(value)}>
+          <div key={index} className={value._id == Chat._id ? 'chatlist-click' : 'chatlist-listitem'} onClick={() => setList(value)}>
             <img src={value.profilepic}/>
               <div className='chatlist-listinf'>
                 <div className='listinf-line1'>

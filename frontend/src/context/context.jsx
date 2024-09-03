@@ -39,3 +39,16 @@ export const SearchContextProvider = ({children}) => {
 
     return <SearchContext.Provider value={{Searchtxt,setSearchtxt}}>{children}</SearchContext.Provider>
 }
+
+export const MessagesContext = createContext();
+
+export const useMessagesContext = () => {
+    return useContext(MessagesContext)
+}
+
+export const MessagesContextProvider = ({children}) => {
+    
+    const [Messages, setMessages] = useState([])
+
+    return <MessagesContext.Provider value={{Messages,setMessages}}>{children}</MessagesContext.Provider>
+}

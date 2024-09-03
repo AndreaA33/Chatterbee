@@ -1,5 +1,7 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/messages.model.js";
+import { getreceiversocketId } from "../socket/socket.js";
+import { io } from '../socket/socket.js';
 
 export const sendmessage = async(req,res) => {
     try {
@@ -31,6 +33,11 @@ export const sendmessage = async(req,res) => {
 
         await Promise.all([conversation.save(), newMessage.save()])
 
+        const receiversocketId = getreceiversocketId(receiverId)
+        if (receiversocketId) {
+            io.to(receiversocketId).emit("newMessage", newMessage)
+        }
+
         res.status(201).json({message: "Message sent successfuly"})
 
     } catch (error) {
@@ -44,7 +51,10 @@ export const getmessage = async(req,res) => {
 
         const { id: convpartnerId } = req.params
         const senderId = req.user._id 
-        
+
+        if (convpartnerId == "undefined") {
+            return
+        }
         
         const conversation = await Conversation.findOne({
             participants: {$all: [senderId,convpartnerId]}
