@@ -9,7 +9,8 @@ body{
     align-items: center;
     height: 100vh;
     width: 100vw;
-    background-image: url(https://static1.squarespace.com/static/629fc86d51f5e1642d21c366/t/62c6116c75e51d5206ce36aa/1657147761583/background.png);
+    background-image: url(../../assets/chatappnew-bg.jpg);
+    background-size: cover
 }  
 
 .home-container{
