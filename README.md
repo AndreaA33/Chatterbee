@@ -1,7 +1,7 @@
 # Chatterbee
 This project is a full-fledged real-time chat application that enables users to communicate through text messages
 This README will guide you through the features and functionalities of the app, helping you get started and make the most out of it.
-![Chatterbee image](./frontend/src/assets/chatappSS1.png)
+![Chatterbee image](./frontend/src/assets/chatappSS2.png)
 ## Table of Contents
 - Features
 - Usage
