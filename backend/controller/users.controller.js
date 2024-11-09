@@ -22,7 +22,7 @@ export const getusersinconv = async(req,res) => {
         const usersInConversations = [];
 
         for (const i of participantIds) {
-            const finduser = await User.findById(i); 
+            const finduser = await User.findById(i).select("-password"); 
             if (finduser) {
                 usersInConversations.push(finduser);
             }
